@@ -18,7 +18,7 @@ const CreateBoxStepper = () => {
 
     const {clientSigner, signer} = useSelector(state => state.connectWalletReducer.user);
 
-    const deployer = "osmo102p7faygl6h0egm5qlxh67vq6ux60felxzh2ys3z2dwfj7a52l2slpq8vh";
+    const deployer_contract = "osmo102p7faygl6h0egm5qlxh67vq6ux60felxzh2ys3z2dwfj7a52l2slpq8vh";
 
     const [userWalletData, setUserWalletData] = useState({
         walletName: "",
@@ -42,22 +42,31 @@ const CreateBoxStepper = () => {
     };
 
 
-    const handle = () => {
+    const handle = async () => {
         stepperCount >= 2 ? setStepperCount(stepperCount) : setStepperCount(stepperCount + 1);
+
         if (stepperCount == 1) {
             console.log(userWalletData);
             console.log("Hello World")
             if (clientSigner && signer) {
-                const transaction = clientSigner.execute(
+                console.log("transaction")
+                const deploy_msg = {
+                    member: userWalletData?.owners,
+                    threshold_weight: userWalletData?.threshold,
+                    max_voting_period: userWalletData?.maxVotingPeriod
+                }
+                const transaction = await clientSigner.execute(
                     signer,
-                    deployer,
+                    deployer_contract,
                     {
-                        Deployer({
-                            
-                        })
+                        deployer: {
+                            Deployer: deploy_msg
+                        }
                     }, 
                     "auto"
                 )
+
+                console.log(transaction)
             }
         }
     }

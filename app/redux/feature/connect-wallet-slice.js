@@ -70,22 +70,22 @@ export const connectWallet = createAsyncThunk("connectWallet", async () => {
             throw new Error("Keplr Wallet extension not found");
         }
 
-        // await window.keplr.enable("osmo-test-5");
+        await window.keplr.enable("osmo-test-5");
 
-        // const offlineSigner = await window.keplr.getOfflineSigner("osmo-test-5");
-        // const accounts = await offlineSigner.getAccounts();
+        const offlineSigner = await window.keplr.getOfflineSigner("osmo-test-5");
+        const accounts = await offlineSigner.getAccounts();
 
-        // const signerClient = await setupWebKeplr({
-        //     rpcEndpoint: "https://rpc.osmotest5.osmosis.zone",
-        //     chainId: "osmo-test-5",
-        //     prefix: "osmosis",
-        //     gasPrice: GasPrice.fromString("0.250uosmo"),
-        // });
+        const signerClient = await setupWebKeplr({
+            rpcEndpoint: "https://rpc.osmotest5.osmosis.zone",
+            chainId: "osmo-test-5",
+            prefix: "osmosis",
+            gasPrice: GasPrice.fromString("0.250uosmo"),
+        });
 
         return {
             user: {
-                signer: "accounts[0].address",
-                clientSigner: "signerClient"
+                signer: accounts[0].address,
+                clientSigner: signerClient
             }
         }
     } catch (error) {

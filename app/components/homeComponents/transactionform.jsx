@@ -2,9 +2,12 @@ import { InputAdornment, TextField } from '@mui/material'
 import { Button } from '@nextui-org/react'
 import React from 'react'
 import TollIcon from '@mui/icons-material/Toll';
+import {useDispatch} from "react-redux"
+import {setActiveComponent} from "@/app/redux/feature/activeComponentSlice"
 
 
-const Transactionform = ({setActiveComponent}) => {
+const Transactionform = () => {
+    const dispatch =useDispatch()
   return (
     <div className='flex flex-col my-10 mx-36 gap-4 w-full relative'>
         <div className='w-full'>
@@ -25,7 +28,7 @@ const Transactionform = ({setActiveComponent}) => {
                 <Button radius='sm' className='text-white bg-black text-lg font-semibold '>Next</Button>
             </div>
         </div>
-        <div className='rounded-full text-xs font-semibold bg-white border-1 absolute py-4 px-2 right-3 -top-4 cursor-pointer ' onClick={()=>setActiveComponent(2)}>
+        <div className='rounded-full text-xs font-semibold bg-white border-1 absolute py-4 px-2 right-3 -top-4 cursor-pointer ' onClick={()=>dispatch(setActiveComponent(1))}>
             close
         </div>
     </div>
