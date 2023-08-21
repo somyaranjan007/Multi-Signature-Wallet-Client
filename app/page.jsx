@@ -12,7 +12,7 @@ const Home = () => {
             <div className="basis-1/3 bg-white rounded-lg">
             <SidebarAccounts/>
             </div>
-            <div className="basis-2/3 bg-gradient-to-r from-blue-300 via-green-200 to-yellow-300 rounded-lg">
+            <div className="basis-2/3 bg-hero bg-no-repeat bg-cover bg-center rounded-lg">
                 <h1 className="text-4xl text-zinc-900 font-semibold text-center mt-2 mb-0">WELCOME TO MULTISIGN</h1>
                 <div className="flex justify-center gap-4 m-2 p-6">
                     <div className="bg-white w-120vh p-2 flex flex-col gap-4 rounded-lg">

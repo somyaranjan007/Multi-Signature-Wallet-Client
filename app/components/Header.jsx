@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@nextui-org/react'
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Connectwallet from '../components/welcomepage/Connectwallet';
@@ -32,15 +33,13 @@ const Header = () => {
             <div className="fixed top-0 left-0 w-full h-full backdrop-filter backdrop-blur-sm bg-black bg-opacity-50 z-40"></div>
         }
         <nav className='flex justify-row justify-between m-4 relative '>
-            <h1 className='text-2xl text-gray-700 font-bold'>MultiSig</h1>
+            <a className='text-2xl text-gray-700 font-bold cursor-pointer' href="/" >MultiSig</a>
             <div className="flex items-center gap-8">
 
                 <div className="flex align-center"
                     ref={connectWalletRef}
                     onClick={() => setShowbar(true)}>
-                    <div className="group relative inline-flex items-center justify-start inline-block px-4 py-2 overflow-hidden font-medium transition-all bg-black rounded-lg hover:bg-white cursor-pointer">
-                        <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-black cursor-pointer">Connect Wallet  <ExpandMoreIcon className='w-5' /></span>
-                    </div>
+                    <Button size="md" radius='sm' className='text-white font-semibold bg-black' onClick={() => setShowbar(true)}>Connect Wallet  <ExpandMoreIcon className='w-5' /></Button>     
 
 
                     {showbar &&

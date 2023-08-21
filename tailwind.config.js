@@ -11,9 +11,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'hero': "url('../public/assets/bg-2.jpg')",
+        'back': "url('https://img.freepik.com/free-vector/seamless-gold-rhombus-grid-pattern-black-background_53876-97589.jpg?w=826&t=st=1692612661~exp=1692613261~hmac=a3a34465d3fda42029e835372d1e4e65a247687cd0122d820b765821fc491fea')",
       },
     },
   },
