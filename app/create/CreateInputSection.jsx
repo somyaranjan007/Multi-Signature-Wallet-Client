@@ -32,7 +32,7 @@ const CreateInputSection = ({ state, setState }) => {
 
     const handleThresholdAndVote = (event) => {
         const {name, value} = event.target;
-        setState(prev => ({ ...prev, [name]: value }))
+        setState(prev => ({ ...prev, [name]: Number(value) }))
     }
 
     return (
@@ -58,7 +58,7 @@ const CreateInputSection = ({ state, setState }) => {
                                 <div className='border py-3 px-3 bg-gray-950 rounded'>
                                     <ContactsIcon className='text-white bg-transparent' />
                                 </div>
-                                <input type="text" name='weight' value={state.owners[index]?.weight ?? ""} onChange={(e) => { handleInputChange(index, "weight", e.target.value) }} className='px-2 py-3 outline-none' placeholder='Owner Weight' />
+                                <input type="text" name='weight' value={state.owners[index]?.weight ?? ""} onChange={(e) => { handleInputChange(index, "weight", Number(e.target.value)) }} className='px-2 py-3 outline-none' placeholder='Owner Weight' />
                             </div>
                             {index > 0 && <DeleteIcon className='text-gray-400 ml-2' onClick={() => handleDeleteInput(index)} />}
                         </div>

@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@nextui-org/react'
 import React, { useState, useRef, useEffect, useMemo } from 'react'
+import {Button} from '@nextui-org/react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Connectwallet from '../components/welcomepage/Connectwallet';
 
@@ -40,8 +41,6 @@ const Header = () => {
                     ref={connectWalletRef}
                     onClick={() => setShowbar(true)}>
                     <Button size="md" radius='sm' className='text-white font-semibold bg-black' onClick={() => setShowbar(true)}>Connect Wallet  <ExpandMoreIcon className='w-5' /></Button>     
-
-
                     {showbar &&
                         <div className="absolute top-full right-10 mt-2 z-50 backdrop-blur-none ">
                             <Connectwallet />

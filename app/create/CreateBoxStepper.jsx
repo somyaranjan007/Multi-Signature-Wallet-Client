@@ -4,11 +4,11 @@ import React, { useState } from 'react'
 import CreateInputSection from './CreateInputSection'
 import { chainData } from './chainAsset';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 const steppers = [
     { id: 1, name: "Select network and name of your Safe Account", description: "Select the network on which to create your Safe Account" },
     { id: 2, name: "Owners and confirmations", description: "Set the owner wallets of your Safe Account and how many need to confirm to execute a valid transaction." },
-    { id: 3, name: "Review", description: "You're about to create a new Safe Account and will have to confirm the transaction with your connected wallet." }
 ]
 
 const CreateBoxStepper = () => {
@@ -16,19 +16,20 @@ const CreateBoxStepper = () => {
     const [chain, setChain] = useState(0);
     const [onChain, setOnChain] = useState(false);
 
-    const {clientSigner, signer} = useSelector(state => state.connectWalletReducer.user);
+    const router = useRouter();
 
-    const deployer_contract = "osmo102p7faygl6h0egm5qlxh67vq6ux60felxzh2ys3z2dwfj7a52l2slpq8vh";
+    const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user);
+    const deployer_contract = "osmo167xy6uqcxjwke4xr3se8a32w957eaagy9eftnas8fju4xse4mspslcw6fk";
 
     const [userWalletData, setUserWalletData] = useState({
         walletName: "",
-        threshold: "",
-        maxVotingPeriod: "",
+        threshold: 55,
+        maxVotingPeriod: 547643875634,
         owners: [
             {
                 name: "Owner",
-                address: "0xabc",
-                weight: "55"
+                address: signer,
+                weight: 55
             }
         ]
     });
@@ -43,30 +44,54 @@ const CreateBoxStepper = () => {
 
 
     const handle = async () => {
-        stepperCount >= 2 ? setStepperCount(stepperCount) : setStepperCount(stepperCount + 1);
+        stepperCount >= 1 ? setStepperCount(stepperCount) : setStepperCount(stepperCount + 1);
+
+        if (stepperCount == 0) {
+            const newData = [...userWalletData.owners];
+            newData[0] = {
+                ...newData[0],
+                address: signer
+            };
+            setUserWalletData(prev => ({ ...prev, owners: newData }))
+        }
 
         if (stepperCount == 1) {
             console.log(userWalletData);
             console.log("Hello World")
             if (clientSigner && signer) {
                 console.log("transaction")
-                const deploy_msg = {
-                    member: userWalletData?.owners,
-                    threshold_weight: userWalletData?.threshold,
-                    max_voting_period: userWalletData?.maxVotingPeriod
+                console.log(signer)
+                console.log(clientSigner)
+                let owner_arr = []
+
+                for (let i = 0; i < userWalletData?.owners.length; i++) {
+                    const owner_obj = {
+                        addr: userWalletData?.owners[i].address,
+                        weight: userWalletData?.owners[i].weight
+                    }
+
+                    owner_arr.push(owner_obj)
                 }
+
                 const transaction = await clientSigner.execute(
                     signer,
                     deployer_contract,
                     {
-                        deployer: {
-                            Deployer: deploy_msg
+                        connector: {
+                            members: owner_arr,
+                            threshold_weight: userWalletData?.threshold,
+                            max_voting_period: userWalletData?.maxVotingPeriod
                         }
-                    }, 
+                    },
                     "auto"
                 )
 
-                console.log(transaction)
+                const multi_contract_address = ((transaction.logs[0].events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
+
+                if (multi_contract_address) {
+                    console.log("wallet created successfuly")
+                    router.push(`/home?multi_sig=${multi_contract_address}`)
+                }
             }
         }
     }
@@ -108,16 +133,7 @@ const CreateBoxStepper = () => {
                                     }
                                 </div>}
                             </div>
-                        </div>
-                        : stepperCount === 1 ?
-                            <div>
-                                <CreateInputSection state={userWalletData} setState={setUserWalletData} />
-                            </div>
-                            :
-                            <div>
-                                Hello Two
-                            </div>
-
+                        </div> : <CreateInputSection state={userWalletData} setState={setUserWalletData} />
                 }
             </div>
 
