@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useRef, useEffect, useMemo } from 'react'
+import {Button} from '@nextui-org/react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Connectwallet from '../components/welcomepage/Connectwallet';
 
@@ -41,7 +42,7 @@ const Header = () => {
                     <div className="group relative inline-flex items-center justify-start inline-block px-4 py-2 overflow-hidden font-medium transition-all bg-black rounded-lg hover:bg-white cursor-pointer">
                         <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-black cursor-pointer">Connect Wallet  <ExpandMoreIcon className='w-5' /></span>
                     </div>
-
+                    {/*  <Button size="md" radius='sm' className='text-white font-semibold bg-black'>Connect Wallet  <ExpandMoreIcon className='w-5' /></Button> */}
 
                     {showbar &&
                         <div className="absolute top-full right-10 mt-2 z-50 backdrop-blur-none ">
