@@ -5,6 +5,7 @@ import CreateInputSection from './CreateInputSection'
 import { chainData } from './chainAsset';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { LocalActivitySharp } from '@mui/icons-material';
 
 const steppers = [
     { id: 1, name: "Select network and name of your Safe Account", description: "Select the network on which to create your Safe Account" },
@@ -15,7 +16,6 @@ const CreateBoxStepper = () => {
     const [stepperCount, setStepperCount] = useState(0);
     const [chain, setChain] = useState(0);
     const [onChain, setOnChain] = useState(false);
-
     const router = useRouter();
 
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user);
@@ -31,7 +31,8 @@ const CreateBoxStepper = () => {
                 address: signer,
                 weight: 55
             }
-        ]
+        ],
+        walletAddress: ""
     });
 
     const handleInputName = (e) => {
@@ -55,7 +56,7 @@ const CreateBoxStepper = () => {
             setUserWalletData(prev => ({ ...prev, owners: newData }))
         }
 
-        if (stepperCount == 1) {
+        else if (stepperCount == 1) {
             console.log(userWalletData);
             console.log("Hello World")
             if (clientSigner && signer) {
@@ -90,6 +91,29 @@ const CreateBoxStepper = () => {
 
                 if (multi_contract_address) {
                     console.log("wallet created successfuly")
+                    setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
+
+
+                    setUserWalletData(prev => {
+                        const userWalletAddr = {
+                            ...prev,
+                            walletAddress: multi_contract_address
+                        }
+
+                        const userWallets = localStorage.getItem("/****user_wallet****/") === null ? [] : localStorage.getItem("/****user_wallet****/");
+
+                        if (userWallets.length > 0) {
+                            const wallets = JSON.parse(userWallets);
+                            wallets.push(userWalletAddr);
+                            localStorage.setItem('/****user_wallet****/', JSON.stringify(wallets))
+                        } else {
+                            userWallets.push(userWalletAddr);
+                            localStorage.setItem('/****user_wallet****/', JSON.stringify(userWallets))
+                        }
+
+                        return userWalletAddr
+                    })
+
                     router.push(`/home?multi_sig=${multi_contract_address}`)
                 }
             }
