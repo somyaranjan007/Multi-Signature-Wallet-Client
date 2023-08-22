@@ -3,13 +3,13 @@ import AddIcon from '@mui/icons-material/Add';
 import PersonIcon from '@mui/icons-material/Person';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 
 const CreateInputSection = ({ state, setState }) => {
     const [maxVotingPeriod, setMaxVotingPeriod] = useState('');
 
     console.log(state)
-
+    
     const handleInputChange = (index, field, value) => {
         console.log(index, field, value);
         const newData = [...state.owners];
@@ -18,6 +18,7 @@ const CreateInputSection = ({ state, setState }) => {
             [field]: value
         };
         setState(prev => ({ ...prev, owners: newData }))
+       
     };
 
     console.log(state)
@@ -52,13 +53,18 @@ const CreateInputSection = ({ state, setState }) => {
                                 <div className='border py-3 px-3 bg-gray-950 rounded'>
                                     <ContactsIcon className='text-white bg-transparent' />
                                 </div>
-                                <input type="text" name='address' value={state.owners[index]?.address ?? ""} onChange={(e) => { handleInputChange(index, "address", e.target.value) }} className='px-2 py-3 outline-none' placeholder='Owner Address' />
+                                <input type="text" name='address' value={state.owners[index]?.address ?? ""} onChange={(e) => { handleInputChange(index, "address", e.target.value) }} className='px-2 py-3 outline-none' placeholder='Owner Address'/>
                             </div>
                             <div className='border flex justify-start items-center rounded ml-5'>
                                 <div className='border py-3 px-3 bg-gray-950 rounded'>
                                     <ContactsIcon className='text-white bg-transparent' />
                                 </div>
-                                <input type="text" name='weight' value={state.owners[index]?.weight ?? ""} onChange={(e) => { handleInputChange(index, "weight", e.target.value) }} className='px-2 py-3 outline-none' placeholder='Owner Weight' />
+                                <input type="text" name='weight' value={state.owners[index]?.weight ?? ""} 
+                                onChange={(e) => { 
+                                    const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                                    handleInputChange(index, "weight", numericValue)
+                                 }}
+                                     className='px-2 py-3 outline-none' placeholder='Owner Weight'/>
                             </div>
                             {index > 0 && <DeleteIcon className='text-gray-400 ml-2' onClick={() => handleDeleteInput(index)} />}
                         </div>
@@ -81,44 +87,16 @@ const CreateInputSection = ({ state, setState }) => {
                     }
                     return sum
                 }, 0)} weight</span>
-                {/* <div className='mt-3'>
-                    <div className='flex justify-start items-center '>
-                        <div className='border min-w-14 min-h-14 p-2 rounded flex justify-center items-center'>
-                            <span className='text-xl ml-2'>{selectedThresholdCount}</span>
-                            <ArrowDropDownIcon onClick={() => setOwnerOption(!ownerOption)} />
-                        </div>
-                        <span className='ml-2'>out of {data.length} owner(s)</span>
-                    </div>
-                    {ownerOption && <div className='flex gap-4 p-4'>
-                        {
-                            data.map((_, index) => {
-                                return (
-                                    <div
-                                        className={`p-3 border hover:bg-green-200 ${index + 1 === selectedThresholdCount ? 'bg-green-200' : ''
-                                            }`}
-                                        onClick={() => {
-                                            setSelectedThresholdCount(index + 1);
-                                            setOwnerOption(false)
-                                        }}
-                                        key={index}
-                                    >
-                                        <span>{index + 1}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>}
-                </div> */}
-
-
+            
             </div>
 
-            <div className="border-t px-3 py-5 space-y-4">
+            <div className="border-t px-3 py-5 space-y-4 mb-8">
                 <h3 className='font-semibold text-xl'>Maximum Voting Period</h3>
                 <p className='text-sm font-normal'>Any transaction requires the confirmation of:</p>
                 <input type="number" placeholder='Enter max voting period ' className='p-2 m-2 border outline-none' value={state?.maxVotingPeriod ?? ""}
                     name='maxVotingPeriod' onChange={(e) => handleThresholdAndVote(e)}  />
             </div>
+            
         </div>
     )
 }
