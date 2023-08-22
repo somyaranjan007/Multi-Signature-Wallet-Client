@@ -16,7 +16,7 @@ const CreateBoxStepper = () => {
     const [chain, setChain] = useState(0);
     const [onChain, setOnChain] = useState(false);
 
-    const {clientSigner, signer} = useSelector(state => state.connectWalletReducer.user);
+    const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user);
 
     const deployer_contract = "osmo102p7faygl6h0egm5qlxh67vq6ux60felxzh2ys3z2dwfj7a52l2slpq8vh";
 
@@ -34,15 +34,23 @@ const CreateBoxStepper = () => {
     });
 
     const handleInputName = (e) => {
+
         const { name, value } = e.target;
         setUserWalletData(prev => ({
             ...prev,
             [name]: value
         }));
+
+
     };
 
 
     const handle = async () => {
+        if (typeof userWalletData.walletName !== 'string' || userWalletData.walletName.trim() === '') {
+            console.log("Wallet name should be a non-empty and  string.");
+            return;
+        }
+
         stepperCount >= 2 ? setStepperCount(stepperCount) : setStepperCount(stepperCount + 1);
 
         if (stepperCount == 1) {
@@ -62,7 +70,7 @@ const CreateBoxStepper = () => {
                         deployer: {
                             Deployer: deploy_msg
                         }
-                    }, 
+                    },
                     "auto"
                 )
 
@@ -82,9 +90,13 @@ const CreateBoxStepper = () => {
             </div>
             <div>
                 {
+                   
+
                     stepperCount === 0 ?
                         <div className='flex items-center px-3 py-5 gap-4'>
-                            <input name='walletName' onChange={(e) => handleInputName(e)} type="text" placeholder='Enter your multi signature account wallet name' className='outline-none border px-3 py-3 w-[50%] rounded' />
+                            <input name='walletName' onChange={(e) => handleInputName(e)} type="text"
+                                placeholder='Enter your multi signature account wallet name'
+                                className='outline-none border px-3 py-3 w-[50%] rounded' />
 
                             <div>
                                 <div className="flex items-center justify-center border p-1 ml-2 rounded relative" onClick={() => setOnChain(true)} >
