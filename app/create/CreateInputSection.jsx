@@ -59,7 +59,7 @@ const CreateInputSection = ({ state, setState }) => {
                                 <div className='border py-3 px-3 bg-gray-950 rounded'>
                                     <ContactsIcon className='text-white bg-transparent' />
                                 </div>
-                                <input type="text" name='weight' value={state.owners[index]?.weight ?? ""} 
+                                <input type="number" name='weight' value={state.owners[index]?.weight ?? ""} 
                                 onChange={(e) => { 
                                     const numericValue = e.target.value.replace(/[^0-9]/g, "");
                                     handleInputChange(index, "weight", numericValue)
@@ -81,20 +81,20 @@ const CreateInputSection = ({ state, setState }) => {
                 <p className='text-sm'>Any transaction requires the confirmation of:</p>
 
                 <input type="number" placeholder='Enter the threshold' name='threshold' value={state?.threshold ?? ""} onChange={(e) => handleThresholdAndVote(e)} className='p-2 m-2 border outline-none' />
-                <span className='ml-2'>out of {state.owners.reduce((sum, curr) => {
+                <span className='ml-2'>Out of {state.owners.reduce((sum, curr) => {
                     if (curr.weight ?? false) {
                         return sum += Number(curr?.weight)
                     }
                     return sum
-                }, 0)} weight</span>
+                }, 0)} weight. </span>
             
             </div>
 
             <div className="border-t px-3 py-5 space-y-4 mb-8">
                 <h3 className='font-semibold text-xl'>Maximum Voting Period</h3>
                 <p className='text-sm font-normal'>Any transaction requires the confirmation of:</p>
-                <input type="number" placeholder='Enter max voting period ' className='p-2 m-2 border outline-none' value={state?.maxVotingPeriod ?? ""}
-                    name='maxVotingPeriod' onChange={(e) => handleThresholdAndVote(e)}  />
+                <input type="number" placeholder='Enter max voting period' className='p-2 m-2 border outline-none' value={state?.maxVotingPeriod ?? ""}
+                    name='maxVotingPeriod' onChange={(e) => handleThresholdAndVote(e)}  /> <span className='ml-2'>In Days.</span>
             </div>
             
         </div>

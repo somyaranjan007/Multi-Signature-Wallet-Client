@@ -30,5 +30,8 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "tailwind-scrollbar": "^3.0.5"
   }
 }

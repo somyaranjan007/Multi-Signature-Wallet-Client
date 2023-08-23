@@ -1,8 +1,11 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import Account from '@/app/components/welcomepage/Account'
 import { Button } from '@nextui-org/react'
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice"
 import { useDispatch, useSelector } from 'react-redux';
+import 'tailwind-scrollbar';
+
 
 const SidebarAccounts = () => {
     const dispatch = useDispatch();
@@ -32,7 +35,7 @@ const SidebarAccounts = () => {
 
     if (!userData.user.signer) {
         return (
-            <>
+            <div className='shadow-lg'> 
                 <h2 className="text-xl font-semibold m-2 border-b border-zinc-200 p-4">My Accounts</h2>
                 <div className='px-16 py-20 space-y-6'>
                     <img src="https://assets-global.website-files.com/636e894daa9e99940a604aef/63bb99fc3d3d7a0f906e49ed_Keplr-logo.png" className=' mx-auto block w-32 ' />
@@ -66,7 +69,7 @@ const SidebarAccounts = () => {
 
 
                 </div>
-            </>
+            </div>
         );
     }
     else {
@@ -75,7 +78,8 @@ const SidebarAccounts = () => {
                 <h2 className="text-xl text-center font-semibold m-2">My Accounts</h2>
                 <hr />
                 <div className="bg-black text-white m-4 text-center p-2 rounded-md">Archway</div>
-                <div className="flex flex-col gap-1 w-full overflow-y-auto h-[70vh] max-h-[80vh]  ">
+                
+                <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
                     {["", "", "", "", "", "", "", "", "", "", ""].map(() => (
                         <Account name="sam" address="0xgavsdgavsgdvasgdv" />
                     ))}
